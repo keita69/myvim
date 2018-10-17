@@ -1,7 +1,6 @@
 " 参考ページ
 " https://qiita.com/hachi8833/items/7beeee825c11f7437f54
 
-" Autohotkey で jj <ESC> を実現 https://rcmdnk.com/blog/2013/08/03/computer-windows-autohotkey/
 inoremap <silent> jj <ESC>
 inoremap <silent> っｊ <ESC>
 
