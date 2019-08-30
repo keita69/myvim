@@ -68,13 +68,13 @@ set nobackup
 set clipboard=unnamed,autoselect
 set fileencoding=utf-8
 set encoding=utf-8
-set softtabstop=4
-set shiftwidth=4
+set softtabstop=2
+set shiftwidth=2
 set textwidth=0
 set switchbuf=useopen   " 新しく開く代わりにすでに開いてあるバッファを開く
 set nowritebackup
 set noswapfile
-set virtualedit=all     " カーソルを文字が存在しない部分でも動けるようにする
+set virtualedit=block     " 矩形ビジュアルモードで仮想編集を有効にする。
 syntax on
 
 
@@ -104,7 +104,7 @@ nmap <silent> cc :cclose<CR>
 nmap <silent> co :copen<CR>
 nmap <silent> <S-CR> <C-W>T<CR>cc
 
-inoremap jj <Esc>
+inoremap jj <Esc><Esc>
 nnoremap <silent> \\ :cd ..<CR>:pwd<CR>
 nmap <silent> <Esc><Esc> :nohlsearch<CR>
 
