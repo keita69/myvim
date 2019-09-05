@@ -160,7 +160,7 @@ nmap <C-p> <Plug>MarkdownPreviewToggle
 function! GitBash()
     " 日本語Windowsの場合`ja`が設定されるので、入力ロケールに合わせたUTF-8に設定しなおす
     let l:env = {
-                \ 'LANG': systemlist('"C:/Program Files/Git/usr/bin/locale.exe" -iU')[0],
+                \ 'LANG': systemlist('"C:/tools/Git/usr/bin/locale.exe" -iU')[0],
                 \ }
 
     " remote連携のための設定
@@ -172,7 +172,7 @@ function! GitBash()
     endif
 
     " term_startでgit for windowsのbashを実行する
-    call termopen(['C:/Program Files/Git/bin/bash.exe', '-l'], {
+    call termopen(['C:/tools/Git/bin/bash.exe', '-l'], {
                 \ 'term_name': 'Git',
                 \ 'term_finish': 'close',
                 \ 'curwin': v:true,
