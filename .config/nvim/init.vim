@@ -21,6 +21,7 @@ if dein#load_state('~/.cache/dein.vim')
   call dein#add('~/.cache/lightline.vim')  " ステータスバーをおしゃれに
   call dein#add('~/.cache/tender.vim')  " カラースキームのセット
   call dein#add('~/.cache/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'cd app & yarn install' }) " markdown preview
+  call dein#add('~/.cache/translate.vim')  " カラースキームのセット
 
   call dein#end()
   call dein#save_state()
@@ -34,6 +35,27 @@ colorscheme tender   "カラーセット
 " <Esc> で :terminal の insert を抜ける
 tnoremap <Esc> <C-\><C-n>
 
+" ============================================================================
+"   translate 
+" ============================================================================
+let g:translate_source = "en"
+let g:translate_target = "ja"
+let g:translate_winsize = 10
+
+" ============================================================================
+"   netrw 
+" ============================================================================
+" ls -laのような表示になります
+let g:netrw_liststyle=1
+" サイズを(K,M,G)で表示
+let g:netrw_sizestyle="H"
+" 日付フォーマットを yyyy/mm/dd hh:mm:ss で表示
+let g:netrw_timefmt="%Y/%m/%d %H:%M:%S"
+
+" ヘッダを非表示にする
+let g:netrw_banner=0
+" プレビューウィンドウを垂直分割で表示する
+let g:netrw_preview=1
 
 " ============================================================================
 "   QFixHowm 
@@ -160,7 +182,7 @@ nmap <C-p> <Plug>MarkdownPreviewToggle
 function! GitBash()
     " 日本語Windowsの場合`ja`が設定されるので、入力ロケールに合わせたUTF-8に設定しなおす
     let l:env = {
-                \ 'LANG': systemlist('"C:/Program Files/Git/usr/bin/locale.exe" -iU')[0],
+                \ 'LANG': systemlist('"C:/tools/Git/usr/bin/locale.exe" -iU')[0],
                 \ }
 
     " remote連携のための設定
@@ -172,7 +194,7 @@ function! GitBash()
     endif
 
     " term_startでgit for windowsのbashを実行する
-    call termopen(['C:/Program Files/Git/bin/bash.exe', '-l'], {
+    call termopen(['C:/tools/Git/bin/bash.exe', '-l'], {
                 \ 'term_name': 'Git',
                 \ 'term_finish': 'close',
                 \ 'curwin': v:true,
