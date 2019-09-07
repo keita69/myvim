@@ -5,7 +5,7 @@ set tabstop=2          "タブを何文字の空白に変換するか
 set shiftwidth=2       "自動インデント時に入力する空白の数
 set expandtab          "タブ入力を空白に変換
 set splitright         "画面を縦分割する際に右に開く
-set clipboard=unnamed  "yankした文字列をクリップボードにコピー
+set clipboard=unnamed  "yank した文字列をクリップボードにコピー
 set hls                "検索した文字をハイライトする
 
 if &compatible
@@ -20,8 +20,8 @@ if dein#load_state('~/.cache/dein.vim')
   call dein#add('~/.cache/dein.vim')
   call dein#add('~/.cache/lightline.vim')  " ステータスバーをおしゃれに
   call dein#add('~/.cache/tender.vim')  " カラースキームのセット
+  call dein#add('~/.cache/vim-gitgutter')  " git diff plugin
   call dein#add('~/.cache/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'cd app & yarn install' }) " markdown preview
-  call dein#add('~/.cache/translate.vim')  " カラースキームのセット
 
   call dein#end()
   call dein#save_state()
@@ -34,13 +34,6 @@ colorscheme tender   "カラーセット
 
 " <Esc> で :terminal の insert を抜ける
 tnoremap <Esc> <C-\><C-n>
-
-" ============================================================================
-"   translate 
-" ============================================================================
-let g:translate_source = "en"
-let g:translate_target = "ja"
-let g:translate_winsize = 10
 
 " ============================================================================
 "   netrw 
@@ -350,4 +343,3 @@ function! MyCharCode()
 
   return "'". char ."' ". nr
 endfunction
-
