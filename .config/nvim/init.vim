@@ -18,9 +18,12 @@ if dein#load_state('~/.cache/dein.vim')
   call dein#begin('~/.cache/dein.vim')
 
   call dein#add('~/.cache/dein.vim')
-  call dein#add('~/.cache/lightline.vim')  " ステータスバーをおしゃれに
+  call dein#add('~/.cache/vim-airline')
+  call dein#add('~/.cache/vim-airline-themes')
+"  call dein#add('~/.cache/lightline.vim')  " ステータスバーをおしゃれに
   call dein#add('~/.cache/tender.vim')  " カラースキームのセット
   call dein#add('~/.cache/vim-gitgutter')  " git diff plugin
+  call dein#add('~/.cache/vim-table-mode') 
   call dein#add('~/.cache/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'cd app & yarn install' }) " markdown preview
 
   call dein#end()
@@ -51,6 +54,11 @@ let g:netrw_banner=0
 let g:netrw_preview=1
 
 " ============================================================================
+"   vim-table-mode
+" ============================================================================
+let g:table_mode_corner='|'
+
+" ============================================================================
 "   QFixHowm 
 " ============================================================================
 " qfixappにruntimepathを通す(パスは環境に合わせてください)
@@ -71,6 +79,10 @@ let QFixHowm_FileType = 'markdown'
 " タイトル記号を # に変更する
 let QFixHowm_Title = '#'
 
+"エントリを自動整形する
+"0に設定すると、全ての整形処理を無効
+"2に設定すると、一ファイル複数エントリのエントリ間の空白行も削除する
+let QFixHowm_Autoformat = 0
 
 " ============================================================================
 "   markdown preview
@@ -175,7 +187,7 @@ nmap <C-p> <Plug>MarkdownPreviewToggle
 function! GitBash()
     " 日本語Windowsの場合`ja`が設定されるので、入力ロケールに合わせたUTF-8に設定しなおす
     let l:env = {
-                \ 'LANG': systemlist('"C:/tools/Git/usr/bin/locale.exe" -iU')[0],
+                \ 'LANG': systemlist('"C:/Program Files/Git/usr/bin/locale.exe" -iU')[0],
                 \ }
 
     " remote連携のための設定
@@ -187,7 +199,7 @@ function! GitBash()
     endif
 
     " term_startでgit for windowsのbashを実行する
-    call termopen(['C:/tools/Git/bin/bash.exe', '-l'], {
+    call termopen(['C:/Program Files/Git/bin/bash.exe', '-l'], {
                 \ 'term_name': 'Git',
                 \ 'term_finish': 'close',
                 \ 'curwin': v:true,
@@ -199,147 +211,160 @@ endfunction
 
 nnoremap <Leader>g :<C-u>call GitBash()<CR>
 
+" ============================================================================
+"   vim-airline
+"   https://github.com/vim-airline/vim-airline
+"   https://github.com/vim-airline/vim-airline-themes   
+" ============================================================================
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline_theme='base16_colors' 
 
+" ============================================================================
+" vim-gitgutter
+" ============================================================================
+let g:gitgutter_sign_added = '✚'
+let g:gitgutter_sign_modified = '➜'
+let g:gitgutter_sign_removed = '✘'
+let g:gitgutter_git_executable = 'C:\Program Files\Git\bin\git.exe'
+let g:gitgutter_highlight_lines = 1
 
 " ============================================================================
 "   lightline.vimをいれたの設定
 "   https://tmg0525.hatenadiary.jp/entry/2017/10/23/230006
 " ============================================================================
 "
-" vim-gitgutter
-let g:gitgutter_sign_added = '✚'
-let g:gitgutter_sign_modified = '➜'
-let g:gitgutter_sign_removed = '✘'
-
-" lightline.vim
-let g:lightline = {
-        \ 'colorscheme': 'tender',
-        \ 'mode_map': {'c': 'NORMAL'},
-        \ 'active': {
-        \   'left': [
-        \     ['mode', 'paste'],
-        \     ['fugitive', 'gitgutter', 'filename'],
-        \   ],
-        \   'right': [
-        \     ['lineinfo', 'syntastic'],
-        \     ['percent'],
-        \     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
-        \   ]
-        \ },
-        \ 'component_function': {
-        \   'modified': 'MyModified',
-        \   'readonly': 'MyReadonly',
-        \   'fugitive': 'MyFugitive',
-        \   'filename': 'MyFilename',
-        \   'fileformat': 'MyFileformat',
-        \   'filetype': 'MyFiletype',
-        \   'fileencoding': 'MyFileencoding',
-        \   'mode': 'MyMode',
-        \   'syntastic': 'SyntasticStatuslineFlag',
-        \   'charcode': 'MyCharCode',
-        \   'gitgutter': 'MyGitGutter',
-        \ },
-        \ 'separator': {'left': '⮀', 'right': '⮂'},
-        \ 'subseparator': {'left': '⮁', 'right': '⮃'}
-        \ }
-
-function! MyModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-
-function! MyReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &ro ? '⭤' : ''
-endfunction
-
-function! MyFilename()
-  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'unite' ? unite#get_status_string() :
-        \  &ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
-endfunction
-
-function! MyFugitive()
-  try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
-      let _ = fugitive#head()
-      return strlen(_) ? '⭠ '._ : ''
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-function! MyFileformat()
-  return winwidth('.') > 70 ? &fileformat : ''
-endfunction
-
-function! MyFiletype()
-  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-function! MyFileencoding()
-  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! MyMode()
-  return winwidth('.') > 60 ? lightline#mode() : ''
-endfunction
-
-function! MyGitGutter()
-  if ! exists('*GitGutterGetHunkSummary')
-        \ || ! get(g:, 'gitgutter_enabled', 0)
-        \ || winwidth('.') <= 90
-    return ''
-  endif
-  let symbols = [
-        \ g:gitgutter_sign_added . ' ',
-        \ g:gitgutter_sign_modified . ' ',
-        \ g:gitgutter_sign_removed . ' '
-        \ ]
-  let hunks = GitGutterGetHunkSummary()
-  let ret = []
-  for i in [0, 1, 2]
-    if hunks[i] > 0
-      call add(ret, symbols[i] . hunks[i])
-    endif
-  endfor
-  return join(ret, ' ')
-endfunction
-
-" https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
-function! MyCharCode()
-  if winwidth('.') <= 70
-    return ''
-  endif
-
-  " Get the output of :ascii
-  redir => ascii
-  silent! ascii
-  redir END
-
-  if match(ascii, 'NUL') != -1
-    return 'NUL'
-  endif
-
-  " Zero pad hex values
-  let nrformat = '0x%02x'
-
-  let encoding = (&fenc == '' ? &enc : &fenc)
-
-  if encoding == 'utf-8'
-    " Zero pad with 4 zeroes in unicode files
-    let nrformat = '0x%04x'
-  endif
-
-  " Get the character and the numeric value from the return value of :ascii
-  " This matches the two first pieces of the return value, e.g.
-  " "<F>  70" => char: 'F', nr: '70'
-  let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
-
-  " Format the numeric value
-  let nr = printf(nrformat, nr)
-
-  return "'". char ."' ". nr
-endfunction
+" " lightline.vim
+"lightline.vimをいれたの設定 let g:lightline = {
+"         \ 'colorscheme': 'tender',
+"         \ 'mode_map': {'c': 'NORMAL'},
+"         \ 'active': {
+"         \   'left': [
+"         \     ['mode', 'paste'],
+"         \     ['fugitive', 'gitgutter', 'filename'],
+"         \   ],
+"         \   'right': [
+"         \     ['lineinfo', 'syntastic'],
+"         \     ['percent'],
+"         \     ['charcode', 'fileformat', 'fileencoding', 'filetype'],
+"         \   ]
+"         \ },
+"         \ 'component_function': {
+"         \   'modified': 'MyModified',
+"         \   'readonly': 'MyReadonly',
+"         \   'fugitive': 'MyFugitive',
+"         \   'filename': 'MyFilename',
+"         \   'fileformat': 'MyFileformat',
+"         \   'filetype': 'MyFiletype',
+"         \   'fileencoding': 'MyFileencoding',
+"         \   'mode': 'MyMode',
+"         \   'syntastic': 'SyntasticStatuslineFlag',
+"         \   'charcode': 'MyCharCode',
+"         \   'gitgutter': 'MyGitGutter',
+"         \ },
+"         \ 'separator': {'left': '⮀', 'right': '⮂'},
+"         \ 'subseparator': {'left': '⮁', 'right': '⮃'}
+"         \ }
+" 
+" function! MyModified()
+"   return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+" endfunction
+" 
+" function! MyReadonly()
+"   return &ft !~? 'help\|vimfiler\|gundo' && &ro ? '⭤' : ''
+" endfunction
+" 
+" function! MyFilename()
+"   return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+"         \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+"         \  &ft == 'unite' ? unite#get_status_string() :
+"         \  &ft == 'vimshell' ? substitute(b:vimshell.current_dir,expand('~'),'~','') :
+"         \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+"         \ ('' != MyModified() ? ' ' . MyModified() : '')
+" endfunction
+" 
+" function! MyFugitive()
+"   try
+"     if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+"       let _ = fugitive#head()
+"       return strlen(_) ? '⭠ '._ : ''
+"     endif
+"   catch
+"   endtry
+"   return ''
+" endfunction
+" 
+" function! MyFileformat()
+"   return winwidth('.') > 70 ? &fileformat : ''
+" endfunction
+" 
+" function! MyFiletype()
+"   return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+" endfunction
+" 
+" function! MyFileencoding()
+"   return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+" endfunction
+" 
+" function! MyMode()
+"   return winwidth('.') > 60 ? lightline#mode() : ''
+" endfunction
+" 
+" function! MyGitGutter()
+"   if ! exists('*GitGutterGetHunkSummary')
+"         \ || ! get(g:, 'gitgutter_enabled', 0)
+"         \ || winwidth('.') <= 90
+"     return ''
+"   endif
+"   let symbols = [
+"         \ g:gitgutter_sign_added . ' ',
+"         \ g:gitgutter_sign_modified . ' ',
+"         \ g:gitgutter_sign_removed . ' '
+"         \ ]
+"   let hunks = GitGutterGetHunkSummary()
+"   let ret = []
+"   for i in [0, 1, 2]
+"     if hunks[i] > 0
+"       call add(ret, symbols[i] . hunks[i])
+"     endif
+"   endfor
+"   return join(ret, ' ')
+" endfunction
+" 
+" " https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
+" function! MyCharCode()
+"   if winwidth('.') <= 70
+"     return ''
+"   endif
+" 
+"   " Get the output of :ascii
+"   redir => ascii
+"   silent! ascii
+"   redir END
+" 
+"   if match(ascii, 'NUL') != -1
+"     return 'NUL'
+"   endif
+" 
+"   " Zero pad hex values
+"   let nrformat = '0x%02x'
+" 
+"   let encoding = (&fenc == '' ? &enc : &fenc)
+" 
+"   if encoding == 'utf-8'
+"     " Zero pad with 4 zeroes in unicode files
+"     let nrformat = '0x%04x'
+"   endif
+" 
+"   " Get the character and the numeric value from the return value of :ascii
+"   " This matches the two first pieces of the return value, e.g.
+"   " "<F>  70" => char: 'F', nr: '70'
+"   let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
+" 
+"   " Format the numeric value
+"   let nr = printf(nrformat, nr)
+" 
+"   return "'". char ."' ". nr
+" endfunction
