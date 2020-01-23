@@ -6,12 +6,13 @@ set expandtab          "タブ入力を空白に変換
 set splitright         "画面を縦分割する際に右に開く
 set clipboard=unnamed  "yank した文字列をクリップボードにコピー
 set hls                "検索した文字をハイライトする
-
 set background=dark
 colorscheme desert 
+set fileformats=unix,dos,mac
+set encoding=utf-8
 
 
-
+"dein Scripts-----------------------------
 if &compatible
   set nocompatible               " Be iMproved
 endif
@@ -22,24 +23,33 @@ set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 " Required:
 if dein#load_state('~/.cache/dein')
   call dein#begin('~/.cache/dein')
-  call dein#add('~/.cache/dein.vim')
-  call dein#add('~/.cache/vim-airline')
-  call dein#add('~/.cache/vim-airline-themes')
-  call dein#add('~/.cache/tender.vim')  " 
-  call dein#add('~/.cache/vim-gitgutter') 
-  call dein#add('~/.cache/vim-table-mode')
-  call dein#add('~/.cache/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'cd app & yarn install' })
-  call dein#add('~/.cache/webapi-vim') 
-  call dein#add('~/.cache/winresizer') 
-  "call dein#add('~/.cache/post-mattermost.vim')
 
   " Let dein manage dein
   " Required:
   call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
 
+  "---------------------------------------------------------
   " Add or remove your plugins here like this:
-  "call dein#add('Shougo/neosnippet.vim')
-  "call dein#add('Shougo/neosnippet-snippets')
+  "---------------------------------------------------------
+  call dein#add('Shougo/neosnippet.vim')
+  call dein#add('Shougo/neosnippet-snippets')
+
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
+  call dein#add('jacoborus/tender.vim')
+  call dein#add('airblade/vim-gitgutter')
+  call dein#add('dhruvasagar/vim-table-mode')
+  call dein#add('iamcco/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'cd app & yarn install' })
+  call dein#add('mattn/webapi-vim') 
+  call dein#add('simeji/winresizer') 
+  "call dein#add('keita69/post-mattermost.vim')
+
+  call dein#add('Shougo/deoplete.nvim')
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
+  let g:deoplete#enable_at_startup = 1
 
   " Required:
   call dein#end()
@@ -51,9 +61,11 @@ filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
-" if dein#check_install()
-"   call dein#install()
-" endif
+if dein#check_install()
+  call dein#install()
+endif
+"End dein Scripts-------------------------
+
 
 " <Esc> で :terminal の insert を抜ける
 tnoremap <Esc> <C-\><C-n>
@@ -230,6 +242,31 @@ let g:airline_theme='base16'
 let g:gitgutter_sign_added = 'ad'
 let g:gitgutter_sign_modified = 'md'
 let g:gitgutter_sign_removed = 'rm'
+
 let g:gitgutter_git_executable = '/bin/git'
 let g:gitgutter_highlight_lines = 1
+
+
+" ============================================================================
+" deoplete
+" ============================================================================
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
