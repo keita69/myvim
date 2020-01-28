@@ -1,4 +1,3 @@
-
 set number             "行番号を表示
 set autoindent         "改行時に自動でインデントする
 set tabstop=2          "タブを何文字の空白に変換するか
@@ -7,6 +6,9 @@ set expandtab          "タブ入力を空白に変換
 set splitright         "画面を縦分割する際に右に開く
 set clipboard=unnamed  "yank した文字列をクリップボードにコピー
 set hls                "検索した文字をハイライトする
+set splitbelow         "新規ウィンドウを下に開く
+set splitright         "新規ウィンドウを右に開く
+
 set background=dark
 colorscheme desert
 
@@ -43,7 +45,7 @@ if dein#load_state('C:\Users\akiya\.cache\dein')
   call dein#add('iamcco/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'cd app & yarn install' })
   call dein#add('mattn/webapi-vim') 
   call dein#add('simeji/winresizer') 
-  "call dein#add('keita69/post-mattermost.vim')
+  call dein#add('keita69/post-mattermost.vim')
   call dein#add('Shougo/deoplete.nvim')
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
@@ -97,8 +99,10 @@ let g:winresizer_horiz_resize = 1
 " ============================================================================
 "   netrw 
 " ============================================================================
-" ls -laのような表示になります
-let g:netrw_liststyle=1
+" 1: ls -laのような表示になります 3: tree
+let g:netrw_liststyle=3
+" ファイラのwindowサイズを20に設定
+let g:netrw_winsize=20
 " サイズを(K,M,G)で表示
 let g:netrw_sizestyle="H"
 " 日付フォーマットを yyyy/mm/dd hh:mm:ss で表示
