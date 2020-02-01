@@ -15,6 +15,13 @@ colorscheme desert
 set fileformats=unix,dos,mac
 set encoding=utf-8
 
+" コメントアウト自動整形機能OFF 
+augroup auto_comment_off
+	autocmd!
+	autocmd BufEnter * setlocal formatoptions-=r
+	autocmd BufEnter * setlocal formatoptions-=o
+augroup END
+
 "dein Scripts-----------------------------
 if &compatible
   set nocompatible               " Be iMproved
