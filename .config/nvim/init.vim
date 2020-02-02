@@ -15,12 +15,6 @@ colorscheme desert
 set fileformats=unix,dos,mac
 set encoding=utf-8
 
-" コメントアウト自動整形機能OFF 
-augroup auto_comment_off
-	autocmd!
-	autocmd BufEnter * setlocal formatoptions-=r
-	autocmd BufEnter * setlocal formatoptions-=o
-augroup END
 
 "dein Scripts-----------------------------
 if &compatible
@@ -31,12 +25,12 @@ endif
 set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('C:\Users\akiya\.cache\dein')
-  call dein#begin('C:\Users\akiya\.cache\dein')
+if dein#load_state('C:\Users\keita\.cache\dein')
+  call dein#begin('C:\Users\keita\.cache\dein')
 
   " Let dein manage dein
   " Required:
-  call dein#add('C:\Users\akiya\.cache\dein\repos\github.com\Shougo\dein.vim')
+  call dein#add('C:\Users\keita\.cache\dein\repos\github.com\Shougo\dein.vim')
 
   "---------------------------------------------------------
   " Add or remove your plugins here like this:
@@ -78,25 +72,30 @@ endif
 
 "End dein Scripts-------------------------
 
+" ============================================================================
+"   キーバインド
+" ============================================================================
+" buffer移動
+nnoremap <silent> <C-j> :bprev<CR>
+nnoremap <silent> <C-k> :bnext<CR>
+
 " <Esc> で :terminal の insert を抜ける
 tnoremap <Esc> <C-\><C-n>
 
-" ============================================================================
-"   補完関連の設定 https://note.com/yasukotelin/n/na87dc604e042
-" ============================================================================
-"set completeopt=menuone,noinsert
-" 補完表示時のEnterで改行をしない
-"inoremap <expr><CR>  pumvisible() ? "<C-y>" : "<CR>"
-"inoremap <expr><C-n> pumvisible() ? "<Down>" : "<C-n>"
-"inoremap <expr><C-p> pumvisible() ? "<Up>" : "<C-p>"
+" コメントアウト自動整形機能OFF 
+augroup auto_comment_off
+	autocmd!
+	autocmd BufEnter * setlocal formatoptions-=r
+	autocmd BufEnter * setlocal formatoptions-=o
+augroup END
 
 " ============================================================================
 "   Post Mattermost  
 " ============================================================================
-let g:post_mattermost_access_token = "j9fdrowxq3fhzjm4kt1arswfzh"
-let g:post_mattermost_endpoint = "http://192.168.56.101:8065"
-let g:post_mattermost_channel_id = "kkxt3xsywtyzfjurtst6pmueeh"
-let g:post_mattermost_curl_opt = "--noproxy 192.168.56.101" 
+let g:post_mattermost_access_token = "7a9djbbmfpgx5xuic34papp79e"
+let g:post_mattermost_endpoint = "http://192.168.33.1:8065"
+let g:post_mattermost_channel_id_default = "cu588ys1piyftgjhnwaogrs96e"
+let g:post_mattermost_curl_opt = "--noproxy 192.168.33.1" 
  
 " ============================================================================
 "    winresizer
@@ -264,7 +263,7 @@ let g:airline_theme='base16'
 let g:gitgutter_sign_added = 'ad'
 let g:gitgutter_sign_modified = 'md'
 let g:gitgutter_sign_removed = 'rm'
-let g:gitgutter_git_executable = 'C:\Tools\Git\bin\git.exe'
+"let g:gitgutter_git_executable = 'C:\Tools\Git\bin\git.exe'
 let g:gitgutter_highlight_lines = 1
 
 
