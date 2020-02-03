@@ -44,8 +44,8 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   call dein#add('airblade/vim-gitgutter')
   call dein#add('dhruvasagar/vim-table-mode')
   call dein#add('iamcco/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'cd app & yarn install' })
-  call dein#add('mattn/webapi-vim') 
-  call dein#add('simeji/winresizer') 
+  call dein#add('mattn/webapi-vim')
+  call dein#add('simeji/winresizer')
   call dein#add('keita69/post-mattermost.vim')
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('fuenor/qfixhowm')
@@ -82,7 +82,7 @@ nnoremap <silent> <C-k> :bnext<CR>
 " <Esc> で :terminal の insert を抜ける
 tnoremap <Esc> <C-\><C-n>
 
-" コメントアウト自動整形機能OFF 
+" コメントアウト自動整形機能OFF
 augroup auto_comment_off
 	autocmd!
 	autocmd BufEnter * setlocal formatoptions-=r
@@ -90,13 +90,19 @@ augroup auto_comment_off
 augroup END
 
 " ============================================================================
-"   Post Mattermost  
+"   User Commnad
 " ============================================================================
-let g:post_mattermost_access_token = "7a9djbbmfpgx5xuic34papp79e"
+" terminalでgitbashを開く
+:command! GitBash terminal bash -l
+
+" ============================================================================
+"   Post Mattermost
+" ============================================================================
+let g:post_mattermost_access_token = "f6155dhdstf9fxt3dknnwijbaa"
 let g:post_mattermost_endpoint = "http://192.168.33.1:8065"
 let g:post_mattermost_channel_id_default = "cu588ys1piyftgjhnwaogrs96e"
-let g:post_mattermost_curl_opt = "--noproxy 192.168.33.1" 
- 
+let g:post_mattermost_curl_opt = "--noproxy 192.168.33.1"
+
 " ============================================================================
 "    winresizer
 " ============================================================================
@@ -104,12 +110,12 @@ let g:winresizer_vert_resize = 1
 let g:winresizer_horiz_resize = 1
 
 " ============================================================================
-"   netrw 
+"   netrw
 " ============================================================================
 " 1: ls -laのような表示になります 3: tree
 let g:netrw_liststyle=3
 " ファイラのwindowサイズを20に設定
-let g:netrw_winsize=20
+let g:netrw_winsize=50
 " サイズを(K,M,G)で表示
 let g:netrw_sizestyle="H"
 " 日付フォーマットを yyyy/mm/dd hh:mm:ss で表示
@@ -126,7 +132,7 @@ let g:netrw_preview=1
 let g:table_mode_corner='|'
 
 " ============================================================================
-"   QFixHowm 
+"   QFixHowm
 " ============================================================================
 " qfixappにruntimepathを通す(パスは環境に合わせてください)
 set runtimepath+=~/.cache/qfixhowm-master
@@ -249,13 +255,13 @@ nmap <C-p> <Plug>MarkdownPreviewToggle
 " ============================================================================
 "   vim-airline
 "   https://github.com/vim-airline/vim-airline
-"   https://github.com/vim-airline/vim-airline-themes   
+"   https://github.com/vim-airline/vim-airline-themes
 " ============================================================================
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
-let g:airline_theme='base16' 
+let g:airline_theme='base16'
 
 " ============================================================================
 " vim-gitgutter
