@@ -1,4 +1,8 @@
+set noswapfile         " スワップファイルを作成しない
+set fileformats=unix,dos,mac      "改行コードをLFにする
+set directory=.,c:\tmp,c:\temp    "デフォルトの設定（カレントディレクトリに作成）
 set number             "行番号を表示
+"set relativenumber     "相対行番号を表示
 set autoindent         "改行時に自動でインデントする
 set tabstop=2          "タブを何文字の空白に変換するか
 set shiftwidth=2       "自動インデント時に入力する空白の数
@@ -6,15 +10,14 @@ set expandtab          "タブ入力を空白に変換
 set splitright         "画面を縦分割する際に右に開く
 set clipboard=unnamed  "yank した文字列をクリップボードにコピー
 set hls                "検索した文字をハイライトする
+set encoding=UTF-8     "UTF-8
+set fileencodings=iso-2022-jp,cp932,sjis,euc-jp,utf-8  "文字コード自動判定
+set virtualedit=block  "テキストがない場所も矩形選択できるようにする
+set background=dark
 set splitbelow         "新規ウィンドウを下に開く
 set splitright         "新規ウィンドウを右に開く
 
-set background=dark
 colorscheme desert
-
-set fileformats=unix,dos,mac
-set encoding=utf-8
-
 
 "dein Scripts-----------------------------
 if &compatible
@@ -45,8 +48,10 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   call dein#add('dhruvasagar/vim-table-mode')
   call dein#add('iamcco/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'cd app & yarn install' })
   call dein#add('mattn/webapi-vim')
+  call dein#add('mattn/vim-sonictemplate')
   call dein#add('simeji/winresizer')
   call dein#add('keita69/post-mattermost.vim')
+
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('fuenor/qfixhowm')
   if !has('nvim')
@@ -89,6 +94,15 @@ augroup auto_comment_off
 	autocmd BufEnter * setlocal formatoptions-=o
 augroup END
 
+" 検索のハイライトを除去
+nnoremap <Esc><Esc> :nohlsearch<CR>
+" UNDO永続化
+if has('persistent_undo')
+  let undo_path = expand('~/.config/undo')
+  exe 'set undodir=' . undo_path
+  set undofile
+endif
+
 " ============================================================================
 "   User Commnad
 " ============================================================================
@@ -96,12 +110,19 @@ augroup END
 :command! GitBash terminal bash -l
 
 " ============================================================================
-"   Post Mattermost
+"   post-mattermost
 " ============================================================================
 let g:post_mattermost_access_token = "f6155dhdstf9fxt3dknnwijbaa"
 let g:post_mattermost_endpoint = "http://192.168.33.1:8065"
 let g:post_mattermost_channel_id_default = "cu588ys1piyftgjhnwaogrs96e"
+let g:post_mattermost_channel_id_koneta = "tk3i767x87f3dgitxatksujr5o"
+let g:post_mattermost_channel_id_asakai = "rcj6egdkepfhdn8j818teaqqbe"
 let g:post_mattermost_curl_opt = "--noproxy 192.168.33.1"
+
+" ============================================================================
+"    sonictemplate
+" ============================================================================
+let g:sonictemplate_vim_template_dir = ['~/.config/nvim/template']
 
 " ============================================================================
 "    winresizer
@@ -112,10 +133,10 @@ let g:winresizer_horiz_resize = 1
 " ============================================================================
 "   netrw
 " ============================================================================
-" 1: ls -laのような表示になります 3: tree
-let g:netrw_liststyle=3
-" ファイラのwindowサイズを20に設定
-let g:netrw_winsize=50
+"let g:netrw_liststyle=1 # ls -laのような表示になります
+let g:netrw_liststyle=3  " ファイルをツリー表示にする
+let g:netrw_winsize=50   " ファイラのwindowサイズを設定
+
 " サイズを(K,M,G)で表示
 let g:netrw_sizestyle="H"
 " 日付フォーマットを yyyy/mm/dd hh:mm:ss で表示
@@ -146,6 +167,14 @@ let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.md'
 let howm_fileencoding    = 'utf-8'
 let howm_fileformat      = 'unix'
 
+" 使用するgrep
+let mygrepprg = 'grep'
+"折りたたみを無効にする
+let QFixHowm_Folding = 0
+" 日本語が含まれる場合のgrep指定
+let myjpgrepprg = ''
+" QuickFixウィンドウから開いた後ウィンドウを閉じる
+let QFix_CloseOnJump = 1
 " QFixHowmのファイルタイプ
 let QFixHowm_FileType = 'markdown'
 
@@ -261,8 +290,17 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
-let g:airline_theme='base16'
-
+let g:airline_theme='base16_colors' 
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#wordcount#enabled = 0
+let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
+let g:airline_section_c = '%t'
+let g:airline_section_x = '%{&filetype}'
+let g:airline_section_z = '%3l:%2v %{airline#extensions#ale#get_warning()} %{airline#extensions#ale#get_error()}'
+let g:airline#extensions#ale#error_symbol = ' '
+let g:airline#extensions#ale#warning_symbol = ' '
+let g:airline#extensions#default#section_truncate_width = {}
+let g:airline#extensions#whitespace#enabled = 1
 " ============================================================================
 " vim-gitgutter
 " ============================================================================
