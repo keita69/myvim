@@ -51,6 +51,8 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   call dein#add('mattn/vim-sonictemplate')
   call dein#add('simeji/winresizer')
   call dein#add('keita69/post-mattermost.vim')
+  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('fuenor/qfixhowm')
