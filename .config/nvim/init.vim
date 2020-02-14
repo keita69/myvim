@@ -53,13 +53,14 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   call dein#add('keita69/post-mattermost.vim')
   call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
-
-  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('ferrine/md-img-paste.vim')
   call dein#add('fuenor/qfixhowm')
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
     call dein#add('roxma/vim-hug-neovim-rpc')
   endif
+
+  call dein#add('Shougo/deoplete.nvim')
   let g:deoplete#enable_at_startup = 1
   let g:python3_host_prog = 'C:\Python38\python.exe'
 
@@ -111,6 +112,12 @@ endif
 " terminalでgitbashを開く
 :command! GitBash terminal bash -l
 
+command! FZFMru call fzf#run({
+      \  'source':  v:oldfiles,
+      \  'sink':    'e',
+      \  'options': '-m -x +s',
+      \  'down':    '40%'})
+
 " ============================================================================
 "   post-mattermost
 " ============================================================================
@@ -131,6 +138,14 @@ let g:sonictemplate_vim_template_dir = ['~/.config/nvim/template']
 " ============================================================================
 let g:winresizer_vert_resize = 1
 let g:winresizer_horiz_resize = 1
+
+" ============================================================================
+"    md-img-paste.vim
+" ============================================================================
+autocmd FileType markdown nmap <silent> <C-p> :call mdip#MarkdownClipboardImage()<CR>
+" there are some defaults for image directory and image name, you can change them
+" let g:mdip_imgdir = 'img'
+" let g:mdip_imgname = 'image'
 
 " ============================================================================
 "   netrw
@@ -281,7 +296,7 @@ let g:mkdp_page_title = '「${name}」'
 " short-cut example
 nmap <C-s> <Plug>MarkdownPreview
 nmap <M-s> <Plug>MarkdownPreviewStop
-nmap <C-p> <Plug>MarkdownPreviewToggle
+"nmap <C-p> <Plug>MarkdownPreviewToggle
 
 " ============================================================================
 "   vim-airline
