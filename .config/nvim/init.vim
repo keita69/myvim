@@ -275,7 +275,7 @@ let g:mkdp_preview_options = {
     \ }
 
 " use a custom markdown style must be absolute path
-let g:mkdp_markdown_css = ''
+let g:mkdp_markdown_css = 'C:\Users\keita\.mycss\markdown.css'
 
 " use a custom highlight style must absolute path
 let g:mkdp_highlight_css = ''
