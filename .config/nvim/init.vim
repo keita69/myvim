@@ -148,6 +148,13 @@ autocmd FileType markdown nmap <silent> <C-p> :call mdip#MarkdownClipboardImage(
 " let g:mdip_imgname = 'image'
 
 " ============================================================================
+"   vim popup menu 
+" ============================================================================
+highlight Pmenu ctermbg=8 guibg=#606060
+highlight PmenuSel ctermbg=1 guifg=#dddd00 guibg=#1f82cd
+highlight PmenuSbar ctermbg=0 guibg=#d6d6d6
+
+" ============================================================================
 "   netrw
 " ============================================================================
 "let g:netrw_liststyle=1 # ls -laのような表示になります
