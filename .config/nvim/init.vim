@@ -16,6 +16,7 @@ set virtualedit=block  "テキストがない場所も矩形選択できるよ�
 set background=dark
 set splitbelow         "新規ウィンドウを下に開く
 set splitright         "新規ウィンドウを右に開く
+set iskeyword+=-       "単語の単位に-（マイナス）を追加する 
 
 colorscheme desert
 
@@ -314,7 +315,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
-let g:airline_theme='base16_colors' 
+let g:airline_theme='base16_codeschool' 
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
@@ -325,6 +326,7 @@ let g:airline#extensions#ale#error_symbol = ' '
 let g:airline#extensions#ale#warning_symbol = ' '
 let g:airline#extensions#default#section_truncate_width = {}
 let g:airline#extensions#whitespace#enabled = 1
+
 " ============================================================================
 " vim-gitgutter
 " ============================================================================
