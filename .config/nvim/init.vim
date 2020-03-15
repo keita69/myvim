@@ -42,6 +42,12 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   "call dein#add('Shougo/neosnippet.vim')
   "call dein#add('Shougo/neosnippet-snippets')
 
+  call dein#add('thinca/vim-quickrun')
+
+  call dein#add('prabirshrestha/async.vim')
+  call dein#add('prabirshrestha/vim-lsp')
+  call dein#add('lighttiger2505/deoplete-vim-lsp')
+
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('jacoborus/tender.vim')
@@ -62,9 +68,6 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   endif
 
   call dein#add('Shougo/deoplete.nvim')
-  let g:deoplete#enable_at_startup = 1
-  let g:python3_host_prog = 'C:\Python38\python.exe'
-
   " Required:
   call dein#end()
   call dein#save_state()
@@ -111,13 +114,43 @@ endif
 "   User Commnad
 " ============================================================================
 " terminalでgitbashを開く
-:command! GitBash terminal bash -l
+:command! GitBash 15new | terminal bash -l
+nnoremap <C-b> :GitBash<CR>
 
+" MRU(Most Resentry Used) FZFで探す
 command! FZFMru call fzf#run({
       \  'source':  v:oldfiles,
       \  'sink':    'e',
       \  'options': '-m -x +s',
       \  'down':    '40%'})
+nnoremap <C-m> :FZFMru<CR>
+
+" ============================================================================
+"   deoplete
+" ============================================================================
+  let g:deoplete#enable_at_startup = 1
+  let g:python3_host_prog = 'C:\Python38\python.exe'
+" let g:python3_host_prog = 'C:\msys64\usr\bin\python3.EXE'
+
+
+" ============================================================================
+"   deoplete-vim-lsp (LSP)
+" ============================================================================
+
+let g:deoplete#enable_at_startup = 1
+
+" For python language server
+if (executable('pyls'))
+    let s:pyls_path = fnamemodify(g:python3_host_prog, ':h') . '/'. 'pyls'
+    augroup LspPython
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'pyls',
+      \ 'cmd': {server_info->['pyls']},
+      \ 'whitelist': ['python']
+      \ })
+    augroup END
+endif
 
 " ============================================================================
 "   post-mattermost
