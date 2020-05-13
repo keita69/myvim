@@ -17,6 +17,7 @@ set background=dark
 set splitbelow         "新規ウィンドウを下に開く
 set splitright         "新規ウィンドウを右に開く
 set iskeyword+=-       "単語の単位に-（マイナス）を追加する 
+set ambiwidth=double   " □ や○ 文字が崩れる問題を解決
 
 colorscheme desert
 
@@ -41,7 +42,7 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   "---------------------------------------------------------
   "call dein#add('Shougo/neosnippet.vim')
   "call dein#add('Shougo/neosnippet-snippets')
-
+  call dein#add('scrooloose/nerdtree')
   call dein#add('thinca/vim-quickrun')
 
   call dein#add('prabirshrestha/async.vim')
@@ -68,6 +69,7 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   endif
 
   call dein#add('Shougo/deoplete.nvim')
+
   " Required:
   call dein#end()
   call dein#save_state()
@@ -124,6 +126,12 @@ command! FZFMru call fzf#run({
       \  'down':    '40%'})
 nnoremap <C-m> :FZFMru<CR>
 
+
+" フォントサイズを変更する
+command Small :set guifont=Ricty\ Diminished\ Discord:h8
+command Mid :set guifont=Ricty\ Diminished\ Discord:h12
+command Big :set guifont=Ricty\ Diminished\ Discord:h20
+
 " ============================================================================
 "   deoplete
 " ============================================================================
@@ -154,7 +162,7 @@ let g:lsp_signs_hint = {'text': '?'}
 " 参照検索
 " nnoremap <LocalLeader>n :<C-u>LspReferences<CR>
 " Lint結果をQuickFixで表示
-nnoremap <LocalLeader>f :<C-u>LspDocumentDiagnostics<CR>
+" nnoremap <LocalLeader>f :<C-u>LspDocumentDiagnostics<CR>
 " テキスト整形
 " nnoremap <LocalLeader>s :<C-u>LspDocumentFormat<CR>
 
@@ -172,14 +180,12 @@ if (executable('pyls'))
 endif
 
 " ============================================================================
-"   post-mattermost
+" vimdiffの色設定
 " ============================================================================
-let g:post_mattermost_access_token = "f6155dhdstf9fxt3dknnwijbaa"
-let g:post_mattermost_endpoint = "http://192.168.33.1:8065"
-let g:post_mattermost_channel_id_default = "cu588ys1piyftgjhnwaogrs96e"
-let g:post_mattermost_channel_id_koneta = "tk3i767x87f3dgitxatksujr5o"
-let g:post_mattermost_channel_id_asakai = "rcj6egdkepfhdn8j818teaqqbe"
-let g:post_mattermost_curl_opt = "--noproxy 192.168.33.1"
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 
 " ============================================================================
 "    sonictemplate
