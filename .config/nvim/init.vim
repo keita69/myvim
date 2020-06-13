@@ -17,7 +17,6 @@ set background=dark
 set splitbelow         "新規ウィンドウを下に開く
 set splitright         "新規ウィンドウを右に開く
 set iskeyword+=-       "単語の単位に-（マイナス）を追加する 
-set ambiwidth=double   " □ や○ 文字が崩れる問題を解決
 
 colorscheme desert
 
@@ -42,7 +41,7 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   "---------------------------------------------------------
   "call dein#add('Shougo/neosnippet.vim')
   "call dein#add('Shougo/neosnippet-snippets')
-  call dein#add('scrooloose/nerdtree')
+
   call dein#add('thinca/vim-quickrun')
 
   call dein#add('prabirshrestha/async.vim')
@@ -57,19 +56,19 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   call dein#add('iamcco/markdown-preview.nvim', {'on_ft': ['markdown', 'pandoc.markdown', 'rmd'], 'build': 'cd app & yarn install' })
   call dein#add('mattn/webapi-vim')
   call dein#add('mattn/vim-sonictemplate')
+  call dein#add('easymotion/vim-easymotion')
   call dein#add('simeji/winresizer')
-  call dein#add('keita69/post-mattermost.vim')
-  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
-  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+  "call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+  "call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
   call dein#add('ferrine/md-img-paste.vim')
   call dein#add('fuenor/qfixhowm')
+  call dein#add('preservim/nerdtree')
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
     call dein#add('roxma/vim-hug-neovim-rpc')
   endif
 
   call dein#add('Shougo/deoplete.nvim')
-
   " Required:
   call dein#end()
   call dein#save_state()
@@ -117,20 +116,63 @@ endif
 " ============================================================================
 " terminalでgitbashを開く
 :command! GitBash 15new | terminal bash -l
+" nnoremap <C-b> :GitBash<CR>
 
 " MRU(Most Resentry Used) FZFで探す
-command! FZFMru call fzf#run({
-      \  'source':  v:oldfiles,
-      \  'sink':    'e',
-      \  'options': '-m -x +s',
-      \  'down':    '40%'})
-nnoremap <C-m> :FZFMru<CR>
+"command! FZFMru call fzf#run({
+"      \  'source':  v:oldfiles,
+"      \  'sink':    'e',
+"      \  'options': '-m -x +s',
+"      \  'down':    '40%'})
+"nnoremap <C-m> :FZFMru<CR>
 
+" ============================================================================
+"   easymotion
+" ============================================================================
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
 
-" フォントサイズを変更する
-command Small :set guifont=Ricty\ Diminished\ Discord:h8
-command Mid :set guifont=Ricty\ Diminished\ Discord:h12
-command Big :set guifont=Ricty\ Diminished\ Discord:h20
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap s <Plug>(easymotion-overwin-f)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-overwin-f2)
+
+" Turn on case-insensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+
+" ============================================================================
+"   nerdtree
+" ============================================================================
+e vim(パラメタなし)で起動したときにNerdtreeを起動
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Bookmark表示
+let NERDTreeShowBookmarks=1
+" ファイル名に色をつける
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+  exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+  exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('vim', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('yaml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('py', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('log', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('txt', 'Magenta', 'none', '#ff00ff', '#151515')
 
 " ============================================================================
 "   deoplete
@@ -145,26 +187,26 @@ command Big :set guifont=Ricty\ Diminished\ Discord:h20
 " ============================================================================
 " vim-lspの各種オプション設定
 let g:lsp_signs_enabled = 1
-let g:lsp_diagnostics_enabled = 0
+let g:lsp_diagnostics_enabled = 1
 let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_virtual_text_enabled = 0
+let g:lsp_virtual_text_enabled = 1
 let g:lsp_signs_error = {'text': '✗'}
 let g:lsp_signs_warning = {'text': '‼'}
 let g:lsp_signs_information = {'text': 'i'}
 let g:lsp_signs_hint = {'text': '?'}
 
 " 定義ジャンプ(デフォルトのctagsによるジャンプを上書きしているのでこのあたりは好みが別れます)
-" nnoremap <C-]> :<C-u>LspDefinition<CR>
+nnoremap <C-]> :<C-u>LspDefinition<CR>
 " 定義情報のホバー表示
-" nnoremap K :<C-u>LspHover<CR>
+nnoremap K :<C-u>LspHover<CR>
 " 名前変更
-" nnoremap <LocalLeader>R :<C-u>LspRename<CR>
+nnoremap <LocalLeader>R :<C-u>LspRename<CR>
 " 参照検索
-" nnoremap <LocalLeader>n :<C-u>LspReferences<CR>
+nnoremap <LocalLeader>n :<C-u>LspReferences<CR>
 " Lint結果をQuickFixで表示
-" nnoremap <LocalLeader>f :<C-u>LspDocumentDiagnostics<CR>
+nnoremap <LocalLeader>f :<C-u>LspDocumentDiagnostics<CR>
 " テキスト整形
-" nnoremap <LocalLeader>s :<C-u>LspDocumentFormat<CR>
+nnoremap <LocalLeader>s :<C-u>LspDocumentFormat<CR>
 
 " For python language server
 if (executable('pyls'))
@@ -180,14 +222,7 @@ if (executable('pyls'))
 endif
 
 " ============================================================================
-" vimdiffの色設定
-" ============================================================================
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=22
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=52
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=21
 
-" ============================================================================
 "    sonictemplate
 " ============================================================================
 let g:sonictemplate_vim_template_dir = ['~/.config/nvim/template']
