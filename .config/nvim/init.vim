@@ -1,3 +1,4 @@
+set ignorecase         " 検索時に大文字小文字を区別しない
 set noswapfile         " スワップファイルを作成しない
 set fileformats=unix,dos,mac      "改行コードをLFにする
 set directory=.,c:\tmp,c:\temp    "デフォルトの設定（カレントディレクトリに作成）
@@ -145,11 +146,10 @@ let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
-
 " ============================================================================
 "   nerdtree
 " ============================================================================
-e vim(パラメタなし)で起動したときにNerdtreeを起動
+" vim(パラメタなし)で起動したときにNerdtreeを起動
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Bookmark表示
 let NERDTreeShowBookmarks=1
