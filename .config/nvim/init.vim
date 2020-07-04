@@ -144,6 +144,11 @@ endif
 "      \  'down':    '40%'})
 "nnoremap <C-m> :FZFMru<CR>
 
+" フォントサイズを変更する
+command Small :set guifont=Ricty\ Diminished\ Discord:h8
+command Mid :set guifont=Ricty\ Diminished\ Discord:h12
+command Big :set guifont=Ricty\ Diminished\ Discord:h20
+
 " ============================================================================
 "   easymotion
 " ============================================================================
@@ -163,6 +168,7 @@ let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+
 " ============================================================================
 "   nerdtree
 " ============================================================================
