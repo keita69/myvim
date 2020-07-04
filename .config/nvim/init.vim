@@ -45,9 +45,9 @@ if dein#load_state('C:\Users\keita\.cache\dein')
 
   call dein#add('thinca/vim-quickrun')
 
-  call dein#add('prabirshrestha/async.vim')
-  call dein#add('prabirshrestha/vim-lsp')
-  call dein#add('lighttiger2505/deoplete-vim-lsp')
+"  call dein#add('prabirshrestha/async.vim')
+"  call dein#add('prabirshrestha/vim-lsp')
+"  call dein#add('lighttiger2505/deoplete-vim-lsp')
 
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
@@ -69,7 +69,7 @@ if dein#load_state('C:\Users\keita\.cache\dein')
     call dein#add('roxma/vim-hug-neovim-rpc')
   endif
 
-  call dein#add('Shougo/deoplete.nvim')
+"  call dein#add('Shougo/deoplete.nvim')
   " Required:
   call dein#end()
   call dein#save_state()
@@ -85,6 +85,23 @@ if dein#check_install()
 endif
 
 "End dein Scripts-------------------------
+
+"Start vim-plug Scripts-------------------------
+" https://github.com/junegunn/vim-plug
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin(stdpath('data') . '/plugged')
+
+" coc.nvim https://github.com/neoclide/coc.nvim
+" Use release branch (recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Or build from source code by using yarn: https://yarnpkg.com
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+
+" Initialize plugin system
+call plug#end()
+"End vim-plug Scripts-------------------------
 
 " ============================================================================
 "   キーバインド
@@ -177,7 +194,7 @@ call NERDTreeHighlightFile('txt', 'Magenta', 'none', '#ff00ff', '#151515')
 " ============================================================================
 "   deoplete
 " ============================================================================
-  let g:deoplete#enable_at_startup = 1
+"  let g:deoplete#enable_at_startup = 1
   let g:python3_host_prog = 'C:\Python38\python.exe'
 " let g:python3_host_prog = 'C:\msys64\usr\bin\python3.EXE'
 
@@ -186,43 +203,42 @@ call NERDTreeHighlightFile('txt', 'Magenta', 'none', '#ff00ff', '#151515')
 "   deoplete-vim-lsp (LSP)
 " ============================================================================
 " vim-lspの各種オプション設定
-let g:lsp_signs_enabled = 1
-let g:lsp_diagnostics_enabled = 1
-let g:lsp_diagnostics_echo_cursor = 1
-let g:lsp_virtual_text_enabled = 1
-let g:lsp_signs_error = {'text': '✗'}
-let g:lsp_signs_warning = {'text': '‼'}
-let g:lsp_signs_information = {'text': 'i'}
-let g:lsp_signs_hint = {'text': '?'}
+"let g:lsp_signs_enabled = 1
+"let g:lsp_diagnostics_enabled = 1
+"let g:lsp_diagnostics_echo_cursor = 1
+"let g:lsp_virtual_text_enabled = 1
+"let g:lsp_signs_error = {'text': '✗'}
+"let g:lsp_signs_warning = {'text': '‼'}
+"let g:lsp_signs_information = {'text': 'i'}
+"let g:lsp_signs_hint = {'text': '?'}
 
-" 定義ジャンプ(デフォルトのctagsによるジャンプを上書きしているのでこのあたりは好みが別れます)
-nnoremap <C-]> :<C-u>LspDefinition<CR>
-" 定義情報のホバー表示
-nnoremap K :<C-u>LspHover<CR>
-" 名前変更
-nnoremap <LocalLeader>R :<C-u>LspRename<CR>
-" 参照検索
-nnoremap <LocalLeader>n :<C-u>LspReferences<CR>
-" Lint結果をQuickFixで表示
-nnoremap <LocalLeader>f :<C-u>LspDocumentDiagnostics<CR>
-" テキスト整形
-nnoremap <LocalLeader>s :<C-u>LspDocumentFormat<CR>
-
-" For python language server
-if (executable('pyls'))
-    let s:pyls_path = fnamemodify(g:python3_host_prog, ':h') . '/'. 'pyls'
-    augroup LspPython
-        autocmd!
-        autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'pyls',
-      \ 'cmd': {server_info->['pyls']},
-      \ 'whitelist': ['python']
-      \ })
-    augroup END
-endif
+"" 定義ジャンプ(デフォルトのctagsによるジャンプを上書きしているのでこのあたりは好みが別れます)
+"nnoremap <C-]> :<C-u>LspDefinition<CR>
+"" 定義情報のホバー表示
+"nnoremap K :<C-u>LspHover<CR>
+"" 名前変更
+"nnoremap <LocalLeader>R :<C-u>LspRename<CR>
+"" 参照検索
+"nnoremap <LocalLeader>n :<C-u>LspReferences<CR>
+"" Lint結果をQuickFixで表示
+"nnoremap <LocalLeader>f :<C-u>LspDocumentDiagnostics<CR>
+"" テキスト整形
+"nnoremap <LocalLeader>s :<C-u>LspDocumentFormat<CR>
+"
+"" For python language server
+"if (executable('pyls'))
+"    let s:pyls_path = fnamemodify(g:python3_host_prog, ':h') . '/'. 'pyls'
+"    augroup LspPython
+"        autocmd!
+"        autocmd User lsp_setup call lsp#register_server({
+"      \ 'name': 'pyls',
+"      \ 'cmd': {server_info->['pyls']},
+"      \ 'whitelist': ['python']
+"      \ })
+"    augroup END
+"endif
 
 " ============================================================================
-
 "    sonictemplate
 " ============================================================================
 let g:sonictemplate_vim_template_dir = ['~/.config/nvim/template']
@@ -414,7 +430,7 @@ let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
 let g:airline_section_c = '%t'
 let g:airline_section_x = '%{&filetype}'
-let g:airline_section_z = '%3l:%2v %{airline#extensions#ale#get_warning()} %{airline#extensions#ale#get_error()}'
+" let g:airline_section_z = '%3l:%2v %{airline#extensions#ale#get_warning()} %{airline#extensions#ale#get_error()}'
 let g:airline#extensions#ale#error_symbol = ' '
 let g:airline#extensions#ale#warning_symbol = ' '
 let g:airline#extensions#default#section_truncate_width = {}
