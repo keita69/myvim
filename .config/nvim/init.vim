@@ -12,12 +12,13 @@ set splitright         "画面を縦分割する際に右に開く
 set clipboard=unnamed  "yank した文字列をクリップボードにコピー
 set hls                "検索した文字をハイライトする
 set encoding=UTF-8     "UTF-8
-set fileencodings=iso-2022-jp,cp932,sjis,euc-jp,utf-8  "文字コード自動判定
+set fileencodings=utf-8,iso-2022-jp,cp932,sjis,euc-jp  "文字コード自動判定
 set virtualedit=block  "テキストがない場所も矩形選択できるようにする
 set background=dark
 set splitbelow         "新規ウィンドウを下に開く
 set splitright         "新規ウィンドウを右に開く
 set iskeyword+=-       "単語の単位に-（マイナス）を追加する 
+set ambiwidth=double   " □ や○ 文字が崩れる問題を解決
 
 colorscheme desert
 
@@ -70,6 +71,7 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   endif
 
 "  call dein#add('Shougo/deoplete.nvim')
+
   " Required:
   call dein#end()
   call dein#save_state()
@@ -82,9 +84,11 @@ syntax enable
 " If you want to install not installed plugins on startup.
 if dein#check_install()
   call dein#install()
+  call dein#update()
 endif
 
 "End dein Scripts-------------------------
+
 
 "Start vim-plug Scripts-------------------------
 " https://github.com/junegunn/vim-plug
@@ -450,5 +454,4 @@ let g:gitgutter_sign_modified = 'md'
 let g:gitgutter_sign_removed = 'rm'
 "let g:gitgutter_git_executable = 'C:\Tools\Git\bin\git.exe'
 let g:gitgutter_highlight_lines = 1
-
 
