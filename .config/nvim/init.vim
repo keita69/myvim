@@ -65,6 +65,7 @@ if dein#load_state('C:\Users\keita\.cache\dein')
   call dein#add('ferrine/md-img-paste.vim')
   call dein#add('fuenor/qfixhowm')
   call dein#add('preservim/nerdtree')
+  call dein#add('voldikss/vim-translate-me')
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
     call dein#add('roxma/vim-hug-neovim-rpc')
@@ -208,45 +209,11 @@ call NERDTreeHighlightFile('txt', 'Magenta', 'none', '#ff00ff', '#151515')
   let g:python3_host_prog = 'C:\Python38\python.exe'
 " let g:python3_host_prog = 'C:\msys64\usr\bin\python3.EXE'
 
-
 " ============================================================================
-"   deoplete-vim-lsp (LSP)
+"   vim-translate-me
 " ============================================================================
-" vim-lspの各種オプション設定
-"let g:lsp_signs_enabled = 1
-"let g:lsp_diagnostics_enabled = 1
-"let g:lsp_diagnostics_echo_cursor = 1
-"let g:lsp_virtual_text_enabled = 1
-"let g:lsp_signs_error = {'text': '✗'}
-"let g:lsp_signs_warning = {'text': '‼'}
-"let g:lsp_signs_information = {'text': 'i'}
-"let g:lsp_signs_hint = {'text': '?'}
-
-"" 定義ジャンプ(デフォルトのctagsによるジャンプを上書きしているのでこのあたりは好みが別れます)
-"nnoremap <C-]> :<C-u>LspDefinition<CR>
-"" 定義情報のホバー表示
-"nnoremap K :<C-u>LspHover<CR>
-"" 名前変更
-"nnoremap <LocalLeader>R :<C-u>LspRename<CR>
-"" 参照検索
-"nnoremap <LocalLeader>n :<C-u>LspReferences<CR>
-"" Lint結果をQuickFixで表示
-"nnoremap <LocalLeader>f :<C-u>LspDocumentDiagnostics<CR>
-"" テキスト整形
-"nnoremap <LocalLeader>s :<C-u>LspDocumentFormat<CR>
-"
-"" For python language server
-"if (executable('pyls'))
-"    let s:pyls_path = fnamemodify(g:python3_host_prog, ':h') . '/'. 'pyls'
-"    augroup LspPython
-"        autocmd!
-"        autocmd User lsp_setup call lsp#register_server({
-"      \ 'name': 'pyls',
-"      \ 'cmd': {server_info->['pyls']},
-"      \ 'whitelist': ['python']
-"      \ })
-"    augroup END
-"endif
+let g:vtm_target_lang = 'ja'
+let g:vtm_default_engines = ['google']
 
 " ============================================================================
 "    sonictemplate
@@ -454,4 +421,5 @@ let g:gitgutter_sign_modified = 'md'
 let g:gitgutter_sign_removed = 'rm'
 "let g:gitgutter_git_executable = 'C:\Tools\Git\bin\git.exe'
 let g:gitgutter_highlight_lines = 1
+
 
